@@ -1,0 +1,191 @@
+Webhook received at: 2025-08-28T14:25:46.579939
+Query parameters: {
+  "triggeredByUser": "712020:45fbc2bd-4957-4173-b56b-384ca65db155"
+}
+Webhook payload:
+{
+  "timestamp": 1756391146185,
+  "webhookEvent": "jira:issue_updated",
+  "issue_event_type_name": "issue_updated",
+  "user": {
+    "self": "https://karakun-agent.atlassian.net/rest/api/2/user?accountId=712020%3A45fbc2bd-4957-4173-b56b-384ca65db155",
+    "accountId": "712020:45fbc2bd-4957-4173-b56b-384ca65db155",
+    "avatarUrls": {
+      "48x48": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+      "24x24": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+      "16x16": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+      "32x32": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png"
+    },
+    "displayName": "Mike Mannion",
+    "active": true,
+    "timeZone": "Europe/Zurich",
+    "accountType": "atlassian"
+  },
+  "issue": {
+    "id": "10099",
+    "self": "https://karakun-agent.atlassian.net/rest/api/2/10099",
+    "key": "BTS-16",
+    "fields": {
+      "statuscategorychangedate": "2025-08-27T17:48:58.660+0200",
+      "issuetype": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/issuetype/10003",
+        "id": "10003",
+        "description": "A broad piece of functionality.",
+        "iconUrl": "https://karakun-agent.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10314?size=medium",
+        "name": "Feature",
+        "subtask": false,
+        "avatarId": 10314,
+        "entityId": "af582cdc-8a75-42a4-802b-a82565829ea3",
+        "hierarchyLevel": 0
+      },
+      "components": [],
+      "timespent": null,
+      "timeoriginalestimate": null,
+      "description": "The project, which is a multi-module Java project built with Gradle, currently uses Hibernate version 6.6.4, JPA version 3.1.0, Jakarta XML Bind 3.0.1. The requirement is to upgrade it to Hibernate version 7.1.1, JPA version 3.2.0, Jakarta XML Bind 4.0.0.\nMake the appropriate changes to the build.gradle.kts files, which contain these dependencies. There is a dependecy file in each module of the project, but you should only upgrade the dependencies, i.e. update build.gradle.kts files, in these modules. H6Bridge, H6BridgeScripts, H6BridgeTests. Do not update build.gradle.kts in the module H6BridgeBaseline.\n",
+      "project": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/project/10000",
+        "id": "10000",
+        "key": "BTS",
+        "name": "Karakun Agent Experimentation",
+        "projectTypeKey": "software",
+        "simplified": true,
+        "avatarUrls": {
+          "48x48": "https://karakun-agent.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10405",
+          "24x24": "https://karakun-agent.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10405?size=small",
+          "16x16": "https://karakun-agent.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10405?size=xsmall",
+          "32x32": "https://karakun-agent.atlassian.net/rest/api/2/universal_avatar/view/type/project/avatar/10405?size=medium"
+        }
+      },
+      "customfield_10032": null,
+      "fixVersions": [],
+      "statusCategory": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/statuscategory/2",
+        "id": 2,
+        "key": "new",
+        "colorName": "blue-gray",
+        "name": "New"
+      },
+      "aggregatetimespent": null,
+      "resolution": null,
+      "timetracking": {},
+      "security": null,
+      "attachment": [],
+      "aggregatetimeestimate": null,
+      "resolutiondate": null,
+      "workratio": -1,
+      "summary": "Upgrade hibernate-related dependencies",
+      "lastViewed": "2025-08-28T15:54:37.046+0200",
+      "watches": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/issue/BTS-16/watchers",
+        "watchCount": 1,
+        "isWatching": true
+      },
+      "issuerestriction": {
+        "issuerestrictions": {},
+        "shouldDisplay": true
+      },
+      "creator": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/user?accountId=712020%3A45fbc2bd-4957-4173-b56b-384ca65db155",
+        "accountId": "712020:45fbc2bd-4957-4173-b56b-384ca65db155",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+          "24x24": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+          "16x16": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+          "32x32": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png"
+        },
+        "displayName": "Mike Mannion",
+        "active": true,
+        "timeZone": "Europe/Zurich",
+        "accountType": "atlassian"
+      },
+      "subtasks": [],
+      "created": "2025-07-16T17:40:04.709+0200",
+      "reporter": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/user?accountId=712020%3A45fbc2bd-4957-4173-b56b-384ca65db155",
+        "accountId": "712020:45fbc2bd-4957-4173-b56b-384ca65db155",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+          "24x24": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+          "16x16": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png",
+          "32x32": "https://secure.gravatar.com/avatar/a6902b6509b83db1955ca18a6f0aa405?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-1.png"
+        },
+        "displayName": "Mike Mannion",
+        "active": true,
+        "timeZone": "Europe/Zurich",
+        "accountType": "atlassian"
+      },
+      "customfield_10021": null,
+      "aggregateprogress": {
+        "progress": 0,
+        "total": 0
+      },
+      "priority": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/priority/3",
+        "iconUrl": "https://karakun-agent.atlassian.net/images/icons/priorities/medium_new.svg",
+        "name": "Medium",
+        "id": "3"
+      },
+      "customfield_10001": null,
+      "labels": [],
+      "environment": null,
+      "customfield_10019": "0|i0002f:",
+      "timeestimate": null,
+      "aggregatetimeoriginalestimate": null,
+      "versions": [],
+      "duedate": null,
+      "progress": {
+        "progress": 0,
+        "total": 0
+      },
+      "issuelinks": [],
+      "votes": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/issue/BTS-16/votes",
+        "votes": 0,
+        "hasVoted": false
+      },
+      "assignee": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/user?accountId=712020%3A3c4e8409-b040-4066-ae8a-2df2022e845c",
+        "accountId": "712020:3c4e8409-b040-4066-ae8a-2df2022e845c",
+        "avatarUrls": {
+          "48x48": "https://secure.gravatar.com/avatar/58494c36979f1b5e57f56c5d6e2c29a1?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FM-1.png",
+          "24x24": "https://secure.gravatar.com/avatar/58494c36979f1b5e57f56c5d6e2c29a1?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FM-1.png",
+          "16x16": "https://secure.gravatar.com/avatar/58494c36979f1b5e57f56c5d6e2c29a1?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FM-1.png",
+          "32x32": "https://secure.gravatar.com/avatar/58494c36979f1b5e57f56c5d6e2c29a1?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FM-1.png"
+        },
+        "displayName": "mike.mannion+agent",
+        "active": true,
+        "timeZone": "Europe/Zurich",
+        "accountType": "atlassian"
+      },
+      "updated": "2025-08-28T16:25:46.185+0200",
+      "status": {
+        "self": "https://karakun-agent.atlassian.net/rest/api/2/status/10000",
+        "description": "",
+        "iconUrl": "https://karakun-agent.atlassian.net/images/icons/statuses/generic.png",
+        "name": "Draft Requirement",
+        "id": "10000",
+        "statusCategory": {
+          "self": "https://karakun-agent.atlassian.net/rest/api/2/statuscategory/2",
+          "id": 2,
+          "key": "new",
+          "colorName": "blue-gray",
+          "name": "New"
+        }
+      }
+    }
+  },
+  "changelog": {
+    "id": "10463",
+    "items": [
+      {
+        "field": "description",
+        "fieldtype": "jira",
+        "fieldId": "description",
+        "from": null,
+        "fromString": "The project, which is a multi-module Java project built with Gradle, currently uses Hibernate version 6.6.4, JPA version 3.1.0, Jakarta XML Bind 3.0.1. The requirement is to upgrade it to Hibernate version 7.0.6, JPA version 3.2.0, Jakarta XML Bind 4.0.0.\nMake the appropriate changes to the build.gradle.kts files, which contain these dependencies. There is a dependecy file in each module of the project, but you should only upgrade the dependencies, i.e. update build.gradle.kts files, in these modules. H6Bridge, H6BridgeScripts, H6BridgeTests. Do not update build.gradle.kts in the module H6BridgeBaseline.\n",
+        "to": null,
+        "toString": "The project, which is a multi-module Java project built with Gradle, currently uses Hibernate version 6.6.4, JPA version 3.1.0, Jakarta XML Bind 3.0.1. The requirement is to upgrade it to Hibernate version 7.1.1, JPA version 3.2.0, Jakarta XML Bind 4.0.0.\nMake the appropriate changes to the build.gradle.kts files, which contain these dependencies. There is a dependecy file in each module of the project, but you should only upgrade the dependencies, i.e. update build.gradle.kts files, in these modules. H6Bridge, H6BridgeScripts, H6BridgeTests. Do not update build.gradle.kts in the module H6BridgeBaseline.\n"
+      }
+    ]
+  }
+}

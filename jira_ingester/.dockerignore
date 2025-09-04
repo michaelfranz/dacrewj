@@ -1,0 +1,15 @@
+# Gradle
+**/.gradle/
+**/build/
+**/out/
+
+# IDE
+**/.idea/
+**/*.iml
+
+# VCS
+.git
+.gitignore
+
+# OS
+.DS_Store

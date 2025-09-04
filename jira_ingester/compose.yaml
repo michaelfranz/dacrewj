@@ -1,0 +1,40 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SUPERSECRETERLANGCOOKIEVALUE1234567890
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  jira_ingester:
+    build:
+      context: ..
+      dockerfile: jira_ingester/Dockerfile
+    image: dacrewj/jira_ingester:local
+    environment:
+      # Provide secret via env or Docker secret. This env var maps to app.webhook.secret
+      - APP_WEBHOOK_SECRET=${APP_WEBHOOK_SECRET}
+      # Optionally override the signature header name and algorithm
+      - APP_WEBHOOK_SIGNATURE_HEADER=${APP_WEBHOOK_SIGNATURE_HEADER:-X-Hub-Signature}
+      - APP_WEBHOOK_ALGORITHM=${APP_WEBHOOK_ALGORITHM:-HmacSHA256}
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+    # Example of using Docker secrets instead of env var:
+    # secrets:
+    #   - app_webhook_secret
+    ports:
+      - "8080:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+# Define the secret file (uncomment to use secrets approach)
+#secrets:
+#  app_webhook_secret:
+#    file: ./secrets/app_webhook_secret
