@@ -4,3 +4,6 @@ rootProject.name = 'jira_ingester'
 if (file("../contracts").exists()) {
     includeBuild("../contracts")
 }
+if (file("../messaging-core").exists()) {
+    includeBuild("../messaging-core")
+}

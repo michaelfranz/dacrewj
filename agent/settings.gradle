@@ -1,1 +1,3 @@
 rootProject.name = 'agent'
+includeBuild('../contracts')
+includeBuild('../messaging-core')

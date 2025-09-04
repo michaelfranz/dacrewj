@@ -16,10 +16,29 @@ java {
 
 repositories {
     mavenCentral()
-}
+    maven {
+        name = "embabel-snapshots"
+        url = uri("https://repo.embabel.com/artifactory/libs-snapshot")
+        mavenContent { snapshotsOnly() }
+    }
+    // Needed for org.springframework.experimental:mcp-bom:0.5.1
+    maven {
+        name = "spring-milestones"
+        url = uri("https://repo.spring.io/milestone")
+        mavenContent { releasesOnly() }
+    }}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.dacrewj:messaging-core:1.0-SNAPSHOT'
+    implementation 'org.dacrewj:contracts:1.0-SNAPSHOT'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.17.2'
+
+    // Embabel (upgrade + add test lib)
+    implementation 'com.embabel.agent:embabel-agent-starter:1.0.0-SNAPSHOT'
+    testImplementation 'com.embabel.agent:embabel-agent-test:1.0.0-SNAPSHOT'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

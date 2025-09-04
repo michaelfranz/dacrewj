@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
+    implementation 'org.dacrewj:messaging-core:1.0-SNAPSHOT'
     implementation 'org.dacrewj:contracts:1.0-SNAPSHOT'
 
     compileOnly 'org.projectlombok:lombok'

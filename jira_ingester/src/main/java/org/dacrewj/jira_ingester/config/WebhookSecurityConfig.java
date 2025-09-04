@@ -143,7 +143,8 @@ public class WebhookSecurityConfig implements WebMvcConfigurer {
         }
     }
 
-    class WebhookLoggingInterceptor implements HandlerInterceptor {
+    @SuppressWarnings("InnerClassMayBeStatic")
+	class WebhookLoggingInterceptor implements HandlerInterceptor {
         @Value("${app.webhook.log-dir:}")
         private String configuredLogDir;
 
