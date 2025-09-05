@@ -1,9 +1,0 @@
-rootProject.name = 'jira_ingester'
-
-// Allow building this module standalone while depending on sibling 'contracts'
-if (file("../contracts").exists()) {
-    includeBuild("../contracts")
-}
-if (file("../messaging-core").exists()) {
-    includeBuild("../messaging-core")
-}

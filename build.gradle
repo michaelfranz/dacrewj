@@ -6,11 +6,8 @@ allprojects {
 
 subprojects {
     // Common configuration for all subprojects can go here in future.
-    configurations {
-        testImplementation {
-            // Ensure configuration exists even if no tests
-        }
-    }
+    apply plugin: 'java'
+    
     dependencies {
         testImplementation 'org.assertj:assertj-core:3.26.0'
     }

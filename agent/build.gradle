@@ -4,6 +4,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
+tasks.register("prepareKotlinBuildScriptModel") {
+    // no-op for IDE compatibility with Kotlin DSL model task
+}
+
 group = 'org.dacrewj'
 version = '0.0.1-SNAPSHOT'
 description = 'agent'
@@ -30,8 +34,8 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
-    implementation 'org.dacrewj:messaging-core:1.0-SNAPSHOT'
-    implementation 'org.dacrewj:contracts:1.0-SNAPSHOT'
+    implementation project(':messaging-core')
+    implementation project(':contracts')
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.17.2'
 

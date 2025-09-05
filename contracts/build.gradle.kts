@@ -2,6 +2,10 @@ plugins {
     id("java")
 }
 
+tasks.register("prepareKotlinBuildScriptModel") {
+    // no-op for IDE compatibility with Kotlin DSL model task
+}
+
 group = "org.dacrewj"
 version = "1.0-SNAPSHOT"
 
