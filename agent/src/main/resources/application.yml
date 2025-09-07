@@ -1,3 +1,55 @@
 spring:
   application:
     name: agent
+
+embabel:
+  max-concurrency: 8
+
+  models:
+    defaultLlm: gpt-4.1
+
+  llm-operations:
+    data-binding:
+      maxAttempts: 2
+
+  agent-platform:
+    ranking:
+      llm: gpt-4.1-mini
+
+  llms:
+    requirement-reviewer-llm:
+      provider: openai
+      model: gpt-4.1-nano
+      temperature: 0.7
+
+  agents:
+    requirement-reviewer:
+      enabled: true
+      llm: requirement-reviewer-llm
+      role: "Requirements Reviewer"
+      goal: |
+        Provide constructive feedback on a {jira-issue}, which contains a statement of a software requirement.
+        Use the title and description as the primary basis for the feedback.
+        Use domain documentation to obtain a deeper understanding of the problem domain: {domain-documentation}
+        Use the existing code-base to obtain information about affected application areas: {code-base}
+      backstory: |
+        You're a seasoned business analyst, known for understanding the level of detail that is required for a description of a software requirement to be sufficient for a software developer to begin implementing a solution. You know how to use domain documentation and knowledge of the existing code base to provide contextualised feedback, which the author of the requirement can use to refine the description of the software requirement.
+        Use Jira's API to post feedback on the issue in the form of a comment.
+      tools:
+        - jira-comment
+        # Future tools can be added here:
+        # - domain-docs
+        # - code-search
+
+app:
+  jira:
+    base-url: https://karakun-agent.atlassian.net/
+    auth-token: ${JIRA_TOKEN:}
+    dry-run: true
+    max-comment-length: 1024
+
+logging:
+  level:
+    com.embabel: INFO
+    com.embabel.agent.api.annotation.support.AgentMetadataReader: INFO
+    org.dacrewj.agent: DEBUG

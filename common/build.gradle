@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.dacrewj'
+version = '0.0.1-SNAPSHOT'
+description = 'common'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.springframework.boot:spring-boot:3.5.5'
+    compileOnly 'org.slf4j:slf4j-api:2.0.16'
+}

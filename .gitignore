@@ -24,3 +24,4 @@ out/
 # Ignore helper files
 HELP.md
 /tmp/
+/jira_ingester/.env

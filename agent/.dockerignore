@@ -1,0 +1,17 @@
+# Ignore build outputs and VCS metadata
+.gradle/
+**/build/
+**/out/
+**/.idea/
+**/.vscode/
+**/.git/
+**/.gitignore
+**/.DS_Store
+
+# Node/npm artifacts (if any in the repo)
+**/node_modules/
+**/dist/
+
+# Logs
+**/*.log
+**/logs/

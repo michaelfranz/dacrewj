@@ -1,0 +1,58 @@
+# Multi-service image running both jira_ingester and agent in one container
+# Prereq: build both jars locally
+#   ./gradlew :jira_ingester:bootJar :agent:bootJar
+# Build:
+#   docker build -f Dockerfile.multi -t dacrewj/all-in-one:local \
+#     --build-arg AGENT_JAR=agent/build/libs/agent-0.0.1-SNAPSHOT.jar \
+#     --build-arg INGESTER_JAR=jira_ingester/build/libs/jira_ingester-0.0.1-SNAPSHOT.jar .
+# Run (requires RabbitMQ and secrets):
+#   docker run --rm -p 8080:8080 -p 8081:8081 \
+#     -e SPRING_PROFILES_ACTIVE=default \
+#     -e JIRA_TOKEN=your-token \
+#     -e JIRA_WEBHOOK_SECRET=your-webhook-secret \
+#     -e RABBIT_HOST=rabbit -e RABBIT_PORT=5672 -e RABBIT_USER=guest -e RABBIT_PASS=guest \
+#     --name dacrew-all dacrewj/all-in-one:local
+
+FROM eclipse-temurin:21-jre-alpine
+
+# Install tini for proper signal handling
+RUN apk add --no-cache tini && addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+WORKDIR /app
+
+# Ports: 8080 agent, 8081 ingester
+EXPOSE 8080 8081
+
+# Build args for jar paths
+ARG AGENT_JAR=agent/build/libs/agent-0.0.1-SNAPSHOT.jar
+ARG INGESTER_JAR=jira_ingester/build/libs/jira_ingester-0.0.1-SNAPSHOT.jar
+
+# Copy jars
+COPY ${AGENT_JAR} /app/agent.jar
+COPY ${INGESTER_JAR} /app/ingester.jar
+
+# Common JVM options
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"
+# Allow service-specific opts override
+ENV AGENT_JAVA_OPTS="" \
+    INGESTER_JAVA_OPTS="" \
+    SPRING_PROFILES_ACTIVE=default
+
+# RabbitMQ connectivity (used by both apps through Spring)
+ENV RABBIT_HOST=localhost \
+    RABBIT_PORT=5672 \
+    RABBIT_USER=guest \
+    RABBIT_PASS=guest
+
+# Agent specific env
+ENV JIRA_TOKEN="" \
+    JIRA_TOKEN_FILE="" \
+    JIRA_WEBHOOK_SECRET="" \
+    APP_WEBHOOK_SIGNATURE_HEADER="X-Hub-Signature" \
+    APP_WEBHOOK_ALGORITHM="HmacSHA256"
+
+# Copy entrypoint
+COPY docker/run-both.sh /usr/local/bin/run-both.sh
+RUN chmod +x /usr/local/bin/run-both.sh
+
+ENTRYPOINT ["/sbin/tini","--","/usr/local/bin/run-both.sh"]

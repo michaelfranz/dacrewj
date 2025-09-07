@@ -1,0 +1,34 @@
+# Example: run both services inside one container, with an external RabbitMQ
+version: "3.9"
+services:
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  all:
+    build:
+      context: .
+      dockerfile: Dockerfile.multi
+      args:
+        AGENT_JAR: agent/build/libs/agent-0.0.1-SNAPSHOT.jar
+        INGESTER_JAR: jira_ingester/build/libs/jira_ingester-0.0.1-SNAPSHOT.jar
+    depends_on:
+      - rabbit
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      # Rabbit connection (both apps use Spring AMQP settings)
+      RABBIT_HOST: rabbit
+      RABBIT_PORT: 5672
+      RABBIT_USER: guest
+      RABBIT_PASS: guest
+      # Secrets (supply real values or use Docker secrets)
+      JIRA_TOKEN: "replace-me"
+      JIRA_WEBHOOK_SECRET: "replace-me"
+    ports:
+      - "8080:8080"  # agent
+      - "8081:8081"  # jira_ingester

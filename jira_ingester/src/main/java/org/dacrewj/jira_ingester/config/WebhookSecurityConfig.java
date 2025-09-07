@@ -16,8 +16,6 @@ import javax.crypto.spec.SecretKeySpec;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Configuration
 public class WebhookSecurityConfig implements WebMvcConfigurer {
@@ -33,38 +31,13 @@ public class WebhookSecurityConfig implements WebMvcConfigurer {
     @Value("${app.webhook.algorithm:HmacSHA256}")
     private String algorithm;
 
-    // Optional path to a Docker/K8s secret file that contains the webhook secret
-    @Value("${app.webhook.secret-file:/run/secrets/app_webhook_secret}")
-    private String secretFilePath;
-
     @PostConstruct
     void logConfig() {
-        // Attempt to load from file if not provided via property/env
-        if (!StringUtils.hasText(webhookSecret)) {
-            String loaded = readSecretFile(secretFilePath);
-            if (StringUtils.hasText(loaded)) {
-                webhookSecret = loaded;
-                log.info("Webhook secret loaded from secret file: {}", secretFilePath);
-            }
-        }
         if (!StringUtils.hasText(webhookSecret)) {
             log.warn("Webhook secret not configured; requests to webhook endpoints will be rejected with 500");
         } else {
             log.info("Webhook HMAC verification enabled using header '{}' and algorithm '{}'", signatureHeader, algorithm);
         }
-    }
-
-    private String readSecretFile(String path) {
-        try {
-            Path p = Path.of(path);
-            if (Files.exists(p)) {
-                String s = Files.readString(p, StandardCharsets.UTF_8).trim();
-                return s;
-            }
-        } catch (Exception e) {
-            log.warn("Failed to read webhook secret file at {}: {}", path, e.toString());
-        }
-        return null;
     }
 
     @Override

@@ -1,0 +1,12 @@
+# Global dockerignore for multi-image builds
+.git/
+**/.git/
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/node_modules/
+**/dist/
+**/build/
+**/out/
+**/*.log
+**/logs/

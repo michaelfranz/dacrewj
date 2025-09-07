@@ -7,14 +7,14 @@ spring:
 # Defaults are safe for header name and algorithm; secret must be supplied externally.
 # Environment variable examples:
 #   APP_WEBHOOK_SIGNATURE_HEADER=X-Hub-Signature
-#   APP_WEBHOOK_SECRET=change-me
+#   JIRA_WEBHOOK_SECRET=change-me
 # Spring property keys (for SPRING_APPLICATION_JSON or command-line):
 #   --app.webhook.signature-header=X-Hub-Signature
 #   --app.webhook.secret=change-me
 app:
   webhook:
-    signature-header: ${APP_WEBHOOK_SIGNATURE_HEADER:X-Hub-Signature}
-    algorithm: ${APP_WEBHOOK_ALGORITHM:HmacSHA256}
+    signature-header: ${JIRA_WEBHOOK_SIGNATURE_HEADER:X-Hub-Signature}
+    algorithm: ${JIRA_WEBHOOK_ALGORITHM:HmacSHA256}
     # Do not set a default for the secret; app will return 500 if missing
-    secret: ${APP_WEBHOOK_SECRET:}
+    secret: ${JIRA_WEBHOOK_SECRET:}
     # log-dir: logs  # Optional override; can also use DACREW_LOG_DIR env var

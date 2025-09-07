@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
+    implementation project(':common')
     implementation project(':messaging-core')
     implementation project(':contracts')
 

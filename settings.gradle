@@ -1,2 +1,2 @@
 rootProject.name = "dacrewj"
-include(":agent", ":contracts", ":jira_ingester", ":messaging-core")
+include(":agent", ":contracts", ":jira_ingester", ":messaging-core", ":common")
