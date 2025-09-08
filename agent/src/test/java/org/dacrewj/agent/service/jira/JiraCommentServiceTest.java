@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
         "app.jira.max-comment-length=64"
 })
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class JiraCommentToolTest {
+public class JiraCommentServiceTest {
 
     @Autowired
-    private JiraCommentTool tool;
+    private JiraCommentService tool;
 
     private static AdfDocument sampleAdf(String text) {
         AdfDocument.Node textNode = new AdfDocument.Node("text", null, null, text, null);
@@ -33,7 +33,7 @@ public class JiraCommentToolTest {
     @Test
     @Order(1)
     void addComment_dryRun_returnsDryRunAndDoesNotRequireToken() {
-        JiraCommentTool.Result res = tool.addComment("BTS-11", sampleAdf("Hello from dry run"));
+        JiraCommentService.Result res = tool.addComment("BTS-11", sampleAdf("Hello from dry run"));
         assertTrue(res.success());
         assertEquals("dry-run", res.status());
         assertNull(res.url());

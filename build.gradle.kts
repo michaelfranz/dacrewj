@@ -1,3 +1,7 @@
+plugins {
+    kotlin("jvm") version "2.1.0"
+}
+
 allprojects {
     repositories {
         mavenCentral()
@@ -6,9 +10,9 @@ allprojects {
 
 subprojects {
     // Common configuration for all subprojects can go here in future.
-    apply plugin: 'java'
-    
+    plugins.apply("java")
+
     dependencies {
-        testImplementation 'org.assertj:assertj-core:3.26.0'
+        testImplementation("org.assertj:assertj-core:3.26.0")
     }
 }

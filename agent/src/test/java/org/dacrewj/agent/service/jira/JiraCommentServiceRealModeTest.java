@@ -20,12 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Real-mode test using a lightweight in-JVM HTTP server instead of WireMock/Jetty
- * to avoid external dependencies. It validates that JiraCommentTool sends:
+ * to avoid external dependencies. It validates that JiraCommentService sends:
  *  - Authorization: Bearer <token>
  *  - JSON Content-Type
  *  - ADF JSON body with the expected text content
  */
-public class JiraCommentToolRealModeTest {
+public class JiraCommentServiceRealModeTest {
 
     private static AdfDocument sampleAdf(String text) {
         AdfDocument.Node textNode = new AdfDocument.Node("text", null, null, text, null);
@@ -70,9 +70,9 @@ public class JiraCommentToolRealModeTest {
         String baseUrl = "http://localhost:" + server.getAddress().getPort();
         // Prefer env token if set; otherwise any non-blank dummy token is fine for the local server
         String token = System.getenv().getOrDefault("JIRA_TOKEN", "dummy-token");
-        JiraCommentTool localTool = new JiraCommentTool(baseUrl, token, false, 1024);
+        JiraCommentService localTool = new JiraCommentService(baseUrl, token, false, 1024);
 
-        JiraCommentTool.Result res = localTool.addComment("BTS-11", sampleAdf("Hello real mode"));
+        JiraCommentService.Result res = localTool.addComment("BTS-11", sampleAdf("Hello real mode"));
 
         assertTrue(res.success());
         assertEquals("created", res.status());
@@ -98,9 +98,9 @@ public class JiraCommentToolRealModeTest {
 
         String baseUrl = "http://localhost:" + server.getAddress().getPort();
         String token = System.getenv().getOrDefault("JIRA_TOKEN", "dummy-token");
-        JiraCommentTool localTool = new JiraCommentTool(baseUrl, token, false, 1024);
+        JiraCommentService localTool = new JiraCommentService(baseUrl, token, false, 1024);
 
-        JiraCommentTool.Result res = localTool.addComment("BTS-11", sampleAdf("x"));
+        JiraCommentService.Result res = localTool.addComment("BTS-11", sampleAdf("x"));
         assertFalse(res.success());
         assertNotNull(res.error());
     }

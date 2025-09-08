@@ -5,7 +5,6 @@ import org.dacrewj.contract.AdfDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,18 +15,18 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
 /**
- * Minimal Jira comment tool that can be exposed to Embabel as a tool named "jira-comment".
- * This implementation focuses on:
+ * Service which posts a comment to Jira. This implementation focuses on:
  *  - honoring app.jira.dry-run
  *  - enforcing app.jira.max-comment-length
  *  - posting to Jira Cloud REST API v3
  */
-@Component("jira-comment")
-public class JiraCommentTool {
+@Service
+public class JiraCommentService {
 
-    private static final Logger log = LoggerFactory.getLogger(JiraCommentTool.class);
+    private static final Logger log = LoggerFactory.getLogger(JiraCommentService.class);
 
     private final HttpClient http;
     private final ObjectMapper mapper;
@@ -37,7 +36,7 @@ public class JiraCommentTool {
     private final boolean dryRun;
     private final int maxCommentLength;
 
-    public JiraCommentTool(
+    public JiraCommentService(
             @Value("${app.jira.base-url}") String baseUrl,
             @Value("${app.jira.auth-token:}") String authToken,
             @Value("${app.jira.dry-run:true}") boolean dryRun,
