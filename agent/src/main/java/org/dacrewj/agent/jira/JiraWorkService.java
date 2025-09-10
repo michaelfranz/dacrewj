@@ -1,8 +1,9 @@
-package org.dacrewj.agent.service.jira;
+package org.dacrewj.agent.jira;
 
 import com.embabel.agent.api.common.Ai;
 import com.embabel.agent.api.common.autonomy.AgentInvocation;
 import com.embabel.agent.core.AgentPlatform;
+import org.dacrewj.agent.agents.RequirementReviewer;
 import org.dacrewj.contract.JiraModels;
 import org.dacrewj.contract.Source;
 import org.slf4j.Logger;

@@ -1,6 +1,7 @@
 package org.dacrewj.agent.service.jira;
 
-import org.dacrewj.agent.AgentApplication;
+import org.dacrewj.agent.DacrewAgentApplication;
+import org.dacrewj.agent.jira.JiraCommentService;
 import org.dacrewj.contract.AdfDocument;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = AgentApplication.class, properties = {
+@SpringBootTest(classes = DacrewAgentApplication.class, properties = {
         "app.jira.base-url=https://karakun-agent.atlassian.net",
         "app.jira.dry-run=true",
         "app.jira.max-comment-length=64"

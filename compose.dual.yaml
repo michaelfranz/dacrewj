@@ -1,22 +1,21 @@
 # Example: run both services inside one container, with an external RabbitMQ
-version: "3.9"
+# NOTE: Do not use the built-in "guest" user for remote connections. RabbitMQ restricts
+# the guest user to localhost only. Use a dedicated user (e.g., appuser/apppass).
+# If you insist on using guest, you'd have to disable loopback_users which is not recommended.
 services:
   rabbit:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.13-management
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: appuser
+      RABBITMQ_DEFAULT_PASS: apppass
 
   all:
     build:
       context: .
       dockerfile: Dockerfile.multi
-      args:
-        AGENT_JAR: agent/build/libs/agent-0.0.1-SNAPSHOT.jar
-        INGESTER_JAR: jira_ingester/build/libs/jira_ingester-0.0.1-SNAPSHOT.jar
     depends_on:
       - rabbit
     environment:
@@ -24,8 +23,8 @@ services:
       # Rabbit connection (both apps use Spring AMQP settings)
       RABBIT_HOST: rabbit
       RABBIT_PORT: 5672
-      RABBIT_USER: guest
-      RABBIT_PASS: guest
+      RABBIT_USER: appuser
+      RABBIT_PASS: apppass
       # Secrets (supply real values or use Docker secrets)
       JIRA_TOKEN: "replace-me"
       JIRA_WEBHOOK_SECRET: "replace-me"

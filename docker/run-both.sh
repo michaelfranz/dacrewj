@@ -10,6 +10,12 @@ if [ "${JIRA_TOKEN:-}" = "" ] && [ -f "${JIRA_TOKEN_FILE:-}" ]; then
   export JIRA_TOKEN="$(cat "${JIRA_TOKEN_FILE}")"
 fi
 
+# Map generic RabbitMQ env vars to Spring Boot properties if not already set
+export SPRING_RABBITMQ_HOST="${SPRING_RABBITMQ_HOST:-${RABBIT_HOST:-localhost}}"
+export SPRING_RABBITMQ_PORT="${SPRING_RABBITMQ_PORT:-${RABBIT_PORT:-5672}}"
+export SPRING_RABBITMQ_USERNAME="${SPRING_RABBITMQ_USERNAME:-${RABBIT_USER:-appuser}}"
+export SPRING_RABBITMQ_PASSWORD="${SPRING_RABBITMQ_PASSWORD:-${RABBIT_PASS:-apppass}}"
+
 # Setup logs directory
 LOG_DIR=${DACREW_LOG_DIR:-/app/logs}
 mkdir -p "$LOG_DIR"

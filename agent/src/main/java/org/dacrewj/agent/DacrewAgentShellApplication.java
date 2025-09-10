@@ -3,21 +3,22 @@ package org.dacrewj.agent;
 import com.embabel.agent.config.annotation.EnableAgents;
 import com.embabel.agent.config.annotation.LocalModels;
 import com.embabel.agent.config.annotation.LoggingThemes;
-import org.dacrewj.messaging.RabbitConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.shell.command.annotation.CommandScan;
 
 @SpringBootApplication
-@Import(RabbitConfig.class)
 @EnableAgents(
 		loggingTheme = LoggingThemes.STAR_WARS,
 		localModels = { LocalModels.OLLAMA, LocalModels.DOCKER }
 )
-public class AgentApplication {
+@CommandScan
+@Profile("cli")
+public class DacrewAgentShellApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AgentApplication.class, args);
+		SpringApplication.run(DacrewAgentShellApplication.class, args);
 	}
 
 }

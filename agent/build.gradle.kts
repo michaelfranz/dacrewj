@@ -33,22 +33,26 @@ repositories {
 }
 
 val embabelVersion = "0.1.3-SNAPSHOT"
+val springShellVersion = "3.4.1"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation(project(":common"))
     implementation(project(":messaging-core"))
     implementation(project(":contracts"))
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.2")
+
+    implementation("org.springframework.shell:spring-shell-starter:$springShellVersion")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 
     // Embabel
     implementation("com.embabel.agent:embabel-agent-starter:$embabelVersion")
+    implementation("com.embabel.agent:embabel-agent-starter-shell:$embabelVersion")
     testImplementation("com.embabel.agent:embabel-agent-test:$embabelVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.amqp:spring-rabbit-test")
     testImplementation("javax.servlet:javax.servlet-api:4.0.1")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

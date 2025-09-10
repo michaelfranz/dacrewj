@@ -1,4 +1,4 @@
-package org.dacrewj.agent.service.jira;
+package org.dacrewj.agent.jira;
 
 public class JiraConstants {
 	public static final String DRAFT_REQUIREMENT = "Draft Requirement";

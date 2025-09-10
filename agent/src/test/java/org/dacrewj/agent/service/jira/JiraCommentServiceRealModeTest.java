@@ -3,6 +3,7 @@ package org.dacrewj.agent.service.jira;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import org.dacrewj.agent.jira.JiraCommentService;
 import org.dacrewj.contract.AdfDocument;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

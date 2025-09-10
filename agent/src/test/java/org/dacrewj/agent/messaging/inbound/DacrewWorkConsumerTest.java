@@ -1,6 +1,6 @@
 package org.dacrewj.agent.messaging.inbound;
 
-import org.dacrewj.agent.service.jira.JiraWorkService;
+import org.dacrewj.agent.jira.JiraWorkService;
 import org.dacrewj.contract.DacrewWork;
 import org.dacrewj.contract.JiraModels;
 import org.dacrewj.contract.Source;

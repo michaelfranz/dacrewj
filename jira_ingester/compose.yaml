@@ -3,6 +3,9 @@ services:
     image: rabbitmq:3.13-management
     environment:
       - RABBITMQ_ERLANG_COOKIE=SUPERSECRETERLANGCOOKIEVALUE1234567890
+      # Use a dedicated non-guest user; guest is restricted to localhost
+      - RABBITMQ_DEFAULT_USER=appuser
+      - RABBITMQ_DEFAULT_PASS=apppass
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -25,6 +28,8 @@ services:
       - APP_WEBHOOK_ALGORITHM=${APP_WEBHOOK_ALGORITHM:-HmacSHA256}
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=appuser
+      - SPRING_RABBITMQ_PASSWORD=apppass
     # Example of using Docker secrets instead of env var:
     # secrets:
     #   - jira_webhook_secret

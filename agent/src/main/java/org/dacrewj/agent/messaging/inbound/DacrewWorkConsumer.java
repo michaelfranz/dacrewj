@@ -1,14 +1,16 @@
 package org.dacrewj.agent.messaging.inbound;
 
-import org.dacrewj.agent.service.jira.JiraWorkService;
+import org.dacrewj.agent.jira.JiraWorkService;
 import org.dacrewj.contract.DacrewWork;
 import org.dacrewj.contract.GithubModels;
 import org.dacrewj.contract.JiraModels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("server")
 @Component
 public class DacrewWorkConsumer {
 

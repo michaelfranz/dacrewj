@@ -1,4 +1,4 @@
-package org.dacrewj.agent.service.jira;
+package org.dacrewj.agent.agents;
 
 import com.embabel.agent.api.annotation.AchievesGoal;
 import com.embabel.agent.api.annotation.Action;

@@ -13,6 +13,14 @@
 #     -e RABBIT_HOST=rabbit -e RABBIT_PORT=5672 -e RABBIT_USER=guest -e RABBIT_PASS=guest \
 #     --name dacrew-all dacrewj/all-in-one:local
 
+# --- Build stage: compile both modules ---
+FROM eclipse-temurin:21-jdk-alpine AS build
+WORKDIR /src
+COPY . .
+# Ensure wrapper is executable and build fat jars for both modules (skip tests for faster image builds)
+RUN chmod +x ./gradlew && ./gradlew :jira_ingester:bootJar :agent:bootJar -x test --no-daemon
+
+# --- Runtime stage: run both apps ---
 FROM eclipse-temurin:21-jre-alpine
 
 # Install tini for proper signal handling
@@ -23,13 +31,9 @@ WORKDIR /app
 # Ports: 8080 agent, 8081 ingester
 EXPOSE 8080 8081
 
-# Build args for jar paths
-ARG AGENT_JAR=agent/build/libs/agent-0.0.1-SNAPSHOT.jar
-ARG INGESTER_JAR=jira_ingester/build/libs/jira_ingester-0.0.1-SNAPSHOT.jar
-
-# Copy jars
-COPY ${AGENT_JAR} /app/agent.jar
-COPY ${INGESTER_JAR} /app/ingester.jar
+# Copy jars from build stage (use stable paths)
+COPY --from=build /src/agent/build/libs/agent-0.0.1-SNAPSHOT.jar /app/agent.jar
+COPY --from=build /src/jira_ingester/build/libs/jira_ingester-0.0.1-SNAPSHOT.jar /app/ingester.jar
 
 # Common JVM options
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"
@@ -39,10 +43,11 @@ ENV AGENT_JAVA_OPTS="" \
     SPRING_PROFILES_ACTIVE=default
 
 # RabbitMQ connectivity (used by both apps through Spring)
+# Avoid using the built-in "guest" user for remote access. Default to appuser/apppass.
 ENV RABBIT_HOST=localhost \
     RABBIT_PORT=5672 \
-    RABBIT_USER=guest \
-    RABBIT_PASS=guest
+    RABBIT_USER=appuser \
+    RABBIT_PASS=apppass
 
 # Agent specific env
 ENV JIRA_TOKEN="" \
