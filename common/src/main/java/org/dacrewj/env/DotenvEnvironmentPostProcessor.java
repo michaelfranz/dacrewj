@@ -1,5 +1,8 @@
 package org.dacrewj.env;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -29,60 +32,62 @@ public class DotenvEnvironmentPostProcessor implements EnvironmentPostProcessor,
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         try {
-            File envFile = locateEnvFile();
-            if (envFile == null) {
+            var envFiles = locateEnvFiles();
+            if (envFiles.isEmpty()) {
                 return;
             }
-            Map<String, Object> values = new LinkedHashMap<>();
-            try (BufferedReader br = new BufferedReader(new FileReader(envFile, StandardCharsets.UTF_8))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    line = line.trim();
-                    if (line.isEmpty() || line.startsWith("#")) continue;
-                    int eq = line.indexOf('=');
-                    if (eq <= 0) continue;
-                    String key = line.substring(0, eq).trim();
-                    String val = line.substring(eq + 1).trim();
-                    if ((val.startsWith("\"") && val.endsWith("\"")) || (val.startsWith("'") && val.endsWith("'"))) {
-                        val = val.substring(1, val.length() - 1);
-                    }
-                    // Do not override real env or system properties
-                    if (System.getProperty(key) != null || System.getenv(key) != null) {
-                        continue;
-                    }
-                    values.put(key, val);
-                }
-            }
-            if (!values.isEmpty()) {
-                MutablePropertySources sources = environment.getPropertySources();
+			var values = getEnvVarValues(envFiles);
+			if (!values.isEmpty()) {
+                var sources = environment.getPropertySources();
                 // Add with high precedence but after system properties/env
                 sources.addAfter("systemEnvironment", new MapPropertySource("dotenv", values));
-                log.info("Loaded {} entries from .env at {}", values.size(), envFile.getAbsolutePath());
+				for (File envFile: envFiles) {
+					log.info("Loaded {} entries from .env at {}", values.size(), envFile.getAbsolutePath());
+				}
             }
         } catch (Exception e) {
             log.warn("Failed to load .env: {}", e.toString());
         }
     }
 
-    private File locateEnvFile() {
-        // 1) current working directory
-        File cwdEnv = new File(".env");
-        if (cwdEnv.exists() && cwdEnv.isFile()) return cwdEnv;
-        // 2) walk up directories to find nearest .env (useful when launching from subdirs)
-        File dir = new File(System.getProperty("user.dir", "."));
-        int up = 0;
-        while (dir != null && up < 5) { // limit depth to avoid scanning entire FS
-            File candidate = new File(dir, ".env");
-            if (candidate.exists() && candidate.isFile()) return candidate;
-            dir = dir.getParentFile();
-            up++;
-        }
-        // 3) try common module locations when running from repo root
-        File jiraEnv = new File("jira_ingester/.env");
-        if (jiraEnv.exists() && jiraEnv.isFile()) return jiraEnv;
-        File agentEnv = new File("agent/.env");
-        if (agentEnv.exists() && agentEnv.isFile()) return agentEnv;
-        return null;
+	private static Map<String, Object> getEnvVarValues(List<File> envFiles) throws IOException {
+		var values = new LinkedHashMap<String, Object>();
+		for (File envFile: envFiles) {
+			try (BufferedReader br = new BufferedReader(new FileReader(envFile, StandardCharsets.UTF_8))) {
+				String line;
+				while ((line = br.readLine()) != null) {
+					Map.Entry<String, Object> entry = getStringObjectEntry(line);
+					if (entry == null) continue;
+					values.put(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+		return values;
+	}
+
+	private static Map.Entry<String, Object> getStringObjectEntry(String line) {
+		line = line.trim();
+		if (line.isEmpty() || line.startsWith("#")) return null;
+		int eq = line.indexOf('=');
+		if (eq <= 0) return null;
+		String key = line.substring(0, eq).trim();
+		String val = line.substring(eq + 1).trim();
+		if ((val.startsWith("\"") && val.endsWith("\"")) || (val.startsWith("'") && val.endsWith("'"))) {
+			val = val.substring(1, val.length() - 1);
+		}
+		// Do not override real env or system properties
+		if (System.getProperty(key) != null || System.getenv(key) != null) {
+			return null;
+		}
+		return Map.entry(key, val);
+	}
+
+	private List<File> locateEnvFiles() {
+		return Stream.of(".env", "jira_ingester/.env", "agent/.env")
+				.map(File::new)
+				.filter(File::exists)
+				.filter(File::isFile)
+				.toList();
     }
 
     @Override

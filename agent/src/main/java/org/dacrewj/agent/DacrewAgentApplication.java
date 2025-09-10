@@ -3,6 +3,7 @@ package org.dacrewj.agent;
 import com.embabel.agent.config.annotation.EnableAgents;
 import com.embabel.agent.config.annotation.LocalModels;
 import com.embabel.agent.config.annotation.LoggingThemes;
+import com.embabel.agent.config.annotation.McpServers;
 import org.dacrewj.messaging.RabbitConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,8 @@ import org.springframework.context.annotation.Profile;
 @Import(RabbitConfig.class)
 @EnableAgents(
 		loggingTheme = LoggingThemes.STAR_WARS,
-		localModels = { LocalModels.OLLAMA, LocalModels.DOCKER }
+		localModels = { LocalModels.OLLAMA, LocalModels.DOCKER },
+		mcpServers = McpServers.DOCKER
 )
 @Profile("server")
 public class DacrewAgentApplication {
