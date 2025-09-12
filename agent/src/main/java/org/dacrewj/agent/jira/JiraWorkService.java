@@ -58,7 +58,7 @@ public class JiraWorkService {
 				issue.fields().description()
 		);
 		RequirementReviewer.RequirementReview review = reviewInvocation.invoke(requirement);
-		jiraCommentService.addComment(issue.key(), review.toAdf());
+		jiraCommentService.addComment(issue.key(), AdfUtilities.toAdf(Source.JIRA.name(), issue.key(), review));
 
 		jiraStatusService.updateStatus(issue.key(), review.approved() ? JiraConstants.APPROVED : JiraConstants.REJECTED);
 	}
