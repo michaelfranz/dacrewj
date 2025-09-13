@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service which posts a comment to Jira. This implementation focuses on:
- *  - honoring app.jira.dry-run
- *  - enforcing app.jira.max-comment-length
+ *  - honoring dacrew.jira.dry-run
+ *  - enforcing dacrew.jira.max-comment-length
  *  - posting to Jira Cloud REST API v3
  */
 @Service
@@ -37,10 +37,10 @@ public class JiraCommentService {
     private final int maxCommentLength;
 
     public JiraCommentService(
-            @Value("${app.jira.base-url}") String baseUrl,
-            @Value("${app.jira.auth-token:}") String authToken,
-            @Value("${app.jira.dry-run:true}") boolean dryRun,
-            @Value("${app.jira.max-comment-length:1024}") int maxCommentLength
+            @Value("${dacrew.jira.base-url}") String baseUrl,
+            @Value("${dacrew.jira.auth-token:}") String authToken,
+            @Value("${dacrew.jira.dry-run:true}") boolean dryRun,
+            @Value("${dacrew.jira.max-comment-length:1024}") int maxCommentLength
     ) {
         this.baseUrl = baseUrl != null && baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
         this.authToken = authToken;
@@ -69,7 +69,7 @@ public class JiraCommentService {
         }
 
         if (authToken == null || authToken.isBlank()) {
-            return Result.error("Jira auth token is missing. Set app.jira.auth-token / JIRA_TOKEN.");
+            return Result.error("Jira auth token is missing. Set dacrew.jira.auth-token / JIRA_TOKEN.");
         }
 
         try {

@@ -14,6 +14,10 @@ java {
     }
 }
 
+springBoot {
+    mainClass.set("org.dacrewj.agent.DacrewAgentShellApplication")
+}
+
 repositories {
     mavenCentral()
     maven {

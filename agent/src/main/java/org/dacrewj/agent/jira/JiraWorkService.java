@@ -3,7 +3,8 @@ package org.dacrewj.agent.jira;
 import com.embabel.agent.api.common.Ai;
 import com.embabel.agent.api.common.autonomy.AgentInvocation;
 import com.embabel.agent.core.AgentPlatform;
-import org.dacrewj.agent.agents.RequirementReviewer;
+import org.dacrewj.agent.agents.DraftRequirement;
+import org.dacrewj.agent.agents.RequirementReview;
 import org.dacrewj.contract.JiraModels;
 import org.dacrewj.contract.Source;
 import org.slf4j.Logger;
@@ -50,14 +51,14 @@ public class JiraWorkService {
 	}
 
 	private void handleDraftRequirement(JiraModels.JiraIssue issue) {
-		var reviewInvocation = AgentInvocation.create(agentPlatform, RequirementReviewer.RequirementReview.class);
-		var requirement = new RequirementReviewer.DraftRequirement(
+		var reviewInvocation = AgentInvocation.create(agentPlatform, RequirementReview.class);
+		var requirement = new DraftRequirement(
 				Source.JIRA.name(),
 				issue.key(),
 				issue.fields().summary(),
 				issue.fields().description()
 		);
-		RequirementReviewer.RequirementReview review = reviewInvocation.invoke(requirement);
+		RequirementReview review = reviewInvocation.invoke(requirement);
 		jiraCommentService.addComment(issue.key(), AdfUtilities.toAdf(Source.JIRA.name(), issue.key(), review));
 
 		jiraStatusService.updateStatus(issue.key(), review.approved() ? JiraConstants.APPROVED : JiraConstants.REJECTED);

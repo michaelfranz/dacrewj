@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import org.dacrewj.agent.agents.RequirementReviewer;
-import org.dacrewj.agent.agents.RequirementReviewer.Critique;
+import org.dacrewj.agent.agents.RequirementReview;
 import org.dacrewj.contract.AdfDocument;
 import org.dacrewj.contract.AdfDocument.Node;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +42,7 @@ final class AdfUtilities {
 		return new Node("bulletList", null, items, null, null);
 	};
 
-	static AdfDocument toAdf(String source, String key, RequirementReviewer.RequirementReview review) {
+	static AdfDocument toAdf(String source, String key, RequirementReview review) {
 		// Build a Jira ADF document with three sections:
 		// 1) "Constructive Feedback"
 		// 2) "Suggested Improvements"
@@ -62,29 +61,28 @@ final class AdfUtilities {
 		content.add(h1.apply("Requirement Review for %s issue %s".formatted(source, key)));
 	}
 
-	private static void addConclusion(RequirementReviewer.RequirementReview review, ArrayList<Node> content) {
-		content.add(h2.apply("Conclusion"));
-		content.add(paragraph.apply(review.approved() ? "Draft requirement approved" : "Draft requirement rejected"));
-	}
-
-	private static void addSuggestions(RequirementReviewer.RequirementReview review, ArrayList<Node> content) {
-		content.add(h2.apply("Suggested Improvements"));
-		RequirementReviewer.ImprovementSuggestions suggestions = review.suggestions();
-		if (suggestions != null && suggestions.suggestions() != null && !suggestions.suggestions().isEmpty()) {
-			content.add(bulletList.apply(suggestions.suggestions()));
-		} else {
-			content.add(paragraph.apply("No improvement suggestions"));
-		}
-	}
-
-	private static void addFeedback(RequirementReviewer.RequirementReview review, ArrayList<Node> content) {
+	private static void addFeedback(RequirementReview review, ArrayList<Node> content) {
 		content.add(h2.apply("Constructive Feedback"));
-		Critique critique = review.critique();
-		if (critique != null && critique.criticisms() != null && !critique.criticisms().isEmpty()) {
-			content.add(bulletList.apply(critique.criticisms()));
+		var critique = review.critique();
+		if (critique != null && !critique.isEmpty()) {
+			content.add(bulletList.apply(critique));
 		} else {
 			content.add(paragraph.apply("No criticisms"));
 		}
 	}
 
+	private static void addSuggestions(RequirementReview review, ArrayList<Node> content) {
+		content.add(h2.apply("Suggested Improvements"));
+		var suggestions = review.suggestions();
+		if (suggestions != null && !suggestions.isEmpty()) {
+			content.add(bulletList.apply(suggestions));
+		} else {
+			content.add(paragraph.apply("No improvement suggestions"));
+		}
+	}
+
+	private static void addConclusion(RequirementReview review, ArrayList<Node> content) {
+		content.add(h2.apply("Conclusion"));
+		content.add(paragraph.apply(review.approved() ? "Draft requirement approved" : "Draft requirement rejected"));
+	}
 }

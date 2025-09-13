@@ -27,10 +27,10 @@ public class JiraStatusService {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public JiraStatusService(
-            @Value("${app.jira.base-url}") String baseUrl,
-            @Value("${app.jira.auth-token:}") String authToken,
-            @Value("${app.jira.dry-run:true}") boolean dryRun,
-            @Value("${app.jira.max-comment-length:1024}") int maxCommentLength
+            @Value("${dacrew.jira.base-url}") String baseUrl,
+            @Value("${dacrew.jira.auth-token:}") String authToken,
+            @Value("${dacrew.jira.dry-run:true}") boolean dryRun,
+            @Value("${dacrew.jira.max-comment-length:1024}") int maxCommentLength
     ) {
         this.baseUrl = baseUrl != null && baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
         this.authToken = authToken;
@@ -52,7 +52,7 @@ public class JiraStatusService {
             return;
         }
         if (authToken == null || authToken.isBlank()) {
-            log.warn("Jira auth token is missing. Set app.jira.auth-token / JIRA_TOKEN.");
+            log.warn("Jira auth token is missing. Set dacrew.jira.auth-token / JIRA_TOKEN.");
             return;
         }
 
